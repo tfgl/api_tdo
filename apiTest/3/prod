@@ -1,0 +1,26 @@
+#!/bin/bash
+
+PORT="4000"
+URL="127.0.0.1"
+
+function get() {
+    if [ -n "${3+set}" ]; then
+        curl -X GET -H "Content-Type: application/json" -d "@$3" "$URL:$PORT/$1" > $2
+    else
+        curl -X GET -H "Content-Type: application/json" "$URL:$PORT/$1" > $2
+    fi
+}
+
+echo ============== create a partie ==============
+get createPartie res_create
+
+echo ============== join a partie ==============
+get joinPartie res_join res_create
+
+echo ============== move ==============
+echo "{\"partieId\": 0, \"playerId\": 0, \"dir\": \"n\"}" > query_mvt
+get move res_mvt query_mvt
+
+echo ============== radar ==============
+echo "{\"partieId\": 0, \"playerId\": 0, \"y\": 0, \"x\": 0, \"d\": 4}" > query_radar
+get getGrille res_radar query_radar
