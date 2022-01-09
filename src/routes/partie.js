@@ -3,17 +3,21 @@ const { Router } = require("express");
 
 const partieRouter = Router();
 
-partieRouter.get("/createPartie", (req, res) => {
+partieRouter.post("/createPartie", (req, res) => {
     let pId = Partie.create();
     res.status(200).json({partieId: pId});
 })
 
-partieRouter.get("/joinPartie", (req, res) => {
-    let jId = Partie.join(req.body.partieId);
+partieRouter.post("/joinPartie", (req, res) => {
+    let pId = req.body.partieId;
+    let jId = Partie
+        .getPartie(pId)
+        .addPlayer();
+
     res.status(200).json({playerId: jId});
 })
 
-partieRouter.get("/move", (req, res) => {
+partieRouter.post("/move", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
     let dir = req.body.dir;
@@ -26,7 +30,7 @@ partieRouter.get("/move", (req, res) => {
     res.status(200).json({tile});
 })
 
-partieRouter.get("/getGrille", (req, res) => {
+partieRouter.post("/getGrille", (req, res) => {
     let pId = req.body.partieId;
     let x = req.body.x;
     let y = req.body.y;
@@ -39,7 +43,7 @@ partieRouter.get("/getGrille", (req, res) => {
     res.status(200).json({grille});
 })
 
-partieRouter.get("/getBaseRessources", (req, res) => {
+partieRouter.post("/getBaseRessources", (req, res) => {
     let pId = req.body.partieId;
     let ressources = Partie
         .getPartie(pId)
@@ -49,7 +53,7 @@ partieRouter.get("/getBaseRessources", (req, res) => {
     res.status(200).json(ressources)
 })
 
-partieRouter.get("/getBaseBatiments", (req, res) => {
+partieRouter.post("/getBaseBatiments", (req, res) => {
     let pId = req.body.partieId;
     let batiments = Partie
         .getPartie(pId)
@@ -60,7 +64,23 @@ partieRouter.get("/getBaseBatiments", (req, res) => {
     res.status(200).json(batiments);
 })
 
-partieRouter.get(/\/getBaseBatimentCost.*/, (req, res) => {
+partieRouter.post("/getBaseBatimentCost", (req, res) => {
+    let pId = req.body.partieId;
+    let bat = req.body.bat
+
+    let batiment = Partie
+        .getPartie(pId)
+        .get_map()
+        .get_base()
+        .get_batiments()[bat];
+
+    let requirements = batiment.requirements[batiment.lvl];
+
+    res.status(200).json(requirements);
+})
+
+// ask to delete this and put the bat name in in the body
+partieRouter.post(/\/getBaseBatimentCost.+/, (req, res) => {
     let pId = req.body.partieId;
     let url = req.url;
     let name = url.slice(20, url.length);
@@ -78,7 +98,7 @@ partieRouter.get(/\/getBaseBatimentCost.*/, (req, res) => {
 })
 
 // TODO
-partieRouter.get("/eventResponse", (req, res) => {
+partieRouter.post("/eventResponse", (req, res) => {
     // find the corresponding event
     // put it on the player tile
     // send the tile
@@ -99,7 +119,7 @@ partieRouter.get("/eventResponse", (req, res) => {
     res.status(200).json(tile);
 })
 
-partieRouter.get("/fouiller", (req, res) => {
+partieRouter.post("/fouiller", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
 
@@ -111,7 +131,7 @@ partieRouter.get("/fouiller", (req, res) => {
     res.status(200).json(items);
 })
 
-partieRouter.get("/drop", (req, res) => {
+partieRouter.post("/drop", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
     let slot = req.body.slot;
@@ -121,7 +141,7 @@ partieRouter.get("/drop", (req, res) => {
     res.status(200).send();
 })
 
-partieRouter.get("/construire", (req, res) => {
+partieRouter.post("/construire", (req, res) => {
     let pId = req.body.partieId;
     let bat = req.body.batiment;
 
@@ -133,7 +153,7 @@ partieRouter.get("/construire", (req, res) => {
     res.status(200).send();
 })
 
-partieRouter.get("/getInventaire", (req, res) => {
+partieRouter.post("/getInventaire", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
 
@@ -144,7 +164,7 @@ partieRouter.get("/getInventaire", (req, res) => {
     res.status(200).json(inventaire);
 })
 
-partieRouter.get("/equiper", (req, res) => {
+partieRouter.post("/equiper", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
     let slot = req.body.slot;
@@ -156,7 +176,18 @@ partieRouter.get("/equiper", (req, res) => {
     res.status(200).send();
 })
 
-partieRouter.get("/combattre", (req, res) => {
+partieRouter.post("/getEquipement", (req, res) => {
+    let pId = req.body.partieId;
+    let jId = req.body.playerId;
+
+    let equipement = Partie.getPartie(pId)
+          .get_player(jId)
+          .get_equipement();
+
+    res.status(200).json(equipement);
+})
+
+partieRouter.post("/combattre", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
 
@@ -167,7 +198,7 @@ partieRouter.get("/combattre", (req, res) => {
     res.status(200).json(actions);
 })
 
-partieRouter.get("/attackCorpsACorps", (req, res) => {
+partieRouter.post("/attackCorpsACorps", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
 
@@ -178,7 +209,7 @@ partieRouter.get("/attackCorpsACorps", (req, res) => {
     res.status(200).json(actions);
 })
 
-partieRouter.get("/fuir", (req, res) => {
+partieRouter.post("/fuir", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
 
@@ -189,7 +220,7 @@ partieRouter.get("/fuir", (req, res) => {
     res.status(200).json(actions);
 })
 
-partieRouter.get("/getStats", (req, res) => {
+partieRouter.post("/getStats", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
 

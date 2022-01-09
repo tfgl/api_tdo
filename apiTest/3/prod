@@ -5,22 +5,23 @@ URL="127.0.0.1"
 
 function get() {
     if [ -n "${3+set}" ]; then
-        curl -X GET -H "Content-Type: application/json" -d "@$3" "$URL:$PORT/$1" > res/$2
+        curl -X POST -H "Content-Type: application/json" -d "@$3" "$URL:$PORT/$1" > res/$2
     else
-        curl -X GET -H "Content-Type: application/json" "$URL:$PORT/$1" > res/$2
+        curl -X POST -H "Content-Type: application/json" "$URL:$PORT/$1" > res/$2
     fi
 }
 
 if [ $1 == "clean" ]; then
     rm res/*
+elif [ $1 == "init" ]; then
+    echo ============== create a partie ==============
+    get createPartie create
 else
     if [ $1 == "create" ]; then
         echo ============== create a partie ==============
         get createPartie create
-        playerId=0
-    else
-        playerId=1
     fi
+    playerId=0
 
     echo ============== join a partie ==============
     get joinPartie join res/create
@@ -62,17 +63,17 @@ else
     echo "{\"partieId\": 0, \"playerId\": $playerId}" > query/getInventaire
     get getInventaire getInventaire query/getInventaire
 
-    echo ============== equipe ==============
-    echo "{\"partieId\": 0, \"playerId\": $playerId \"slot\": 0}" > query/equipe
-    get equipe equipe query/construire
+    echo ============== equiper ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId, \"slot\": 0}" > query/equiper
+    get equiper equiper query/equiper
 
     echo ============== getInventaire ==============
     echo "{\"partieId\": 0, \"playerId\": $playerId}" > query/getInventaire
     get getInventaire getInventaire2 query/getInventaire
 
-    echo ============== getStats ==============
-    echo "{\"partieId\": 0, \"playerId\": $playerId}" > query/getStats
-    get getStats getStats query/getStats
+    echo ============== getEquipement ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId, \"slot\": 0}" > query/getEquipement
+    get getEquipement getEquipement query/getEquipement
 fi
 
 
