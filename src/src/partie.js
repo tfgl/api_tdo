@@ -25,6 +25,10 @@ class Partie {
         return Partie.parties[pId].get_map().get_chunk(x, y, d);
     }
 
+    static getPartie(pId) {
+        return Partie.parties[pId];
+    }
+
     constructor() {
         Event.initEvent();
         this.map = new Map(200, 200, this);

@@ -7,6 +7,7 @@ class Map {
         this.h = h;
         this.grille = [];
         this.partie = partie;
+        this.regenStep = 0;
 
         this.init();
     }
@@ -28,6 +29,27 @@ class Map {
         return (x >= 0 && x < this.w) && (y >= 0 && y < this.h);
     }
 
+    incRegen() {
+        this.regenStep++;
+        if(this.regenStep >= 5) {
+            this.regen();
+            this.regenStep = 0;
+        }
+    }
+
+    regen() {
+        console.log('regen')
+        let [w, h] = [this.w, this.h];
+        for(let y=0; y<h; y++) {
+            for(let x=0; x<w; x++) {
+                if( this.partie.isFree(x, y) && this.grille[y][x] != this.base) {
+                    let dst = Math.sqrt(w*w + h*h);
+                    this.grille[y][x] = new Event(dst);
+                }
+            }
+        }
+    }
+
     get_base() {
         return this.base;
     }
@@ -42,6 +64,7 @@ class Map {
         // on y axis
         for(let i=0; i<d; i++) {
             chunk.push([]);
+
             // on x axis
             for(let j=0; j<d; j++) {
                 let [x2, y2] = this.centerToTopLeft(j+x-d/2, i+y-d/2);

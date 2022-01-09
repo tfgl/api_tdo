@@ -5,22 +5,37 @@ URL="127.0.0.1"
 
 function get() {
     if [ -n "${3+set}" ]; then
-        curl -X GET -H "Content-Type: application/json" -d "@$3" "$URL:$PORT/$1" > $2
+        curl -X GET -H "Content-Type: application/json" -d "@$3" "$URL:$PORT/$1" > res/$2
     else
-        curl -X GET -H "Content-Type: application/json" "$URL:$PORT/$1" > $2
+        curl -X GET -H "Content-Type: application/json" "$URL:$PORT/$1" > res/$2
     fi
 }
 
-echo ============== create a partie ==============
-get createPartie res_create
+if [ $1 == "clean" ]; then
+    rm res/*
+else
+    echo ============== create a partie ==============
+    get createPartie create
 
-echo ============== join a partie ==============
-get joinPartie res_join res_create
+    echo ============== join a partie ==============
+    get joinPartie join res/create
 
-echo ============== move ==============
-echo "{\"partieId\": 0, \"playerId\": 0, \"dir\": \"n\"}" > query_mvt
-get move res_mvt query_mvt
+    echo ============== move ==============
+    echo "{\"partieId\": 0, \"playerId\": 0, \"dir\": \"n\"}" > query/mvt
+    get move mvt query/mvt
 
-echo ============== radar ==============
-echo "{\"partieId\": 0, \"playerId\": 0, \"y\": 0, \"x\": 0, \"d\": 4}" > query_radar
-get getGrille res_radar query_radar
+    echo ============== radar ==============
+    echo "{\"partieId\": 0, \"playerId\": 0, \"y\": 0, \"x\": 0, \"d\": 4}" > query/radar
+    get getGrille radar2 query/radar
+
+    echo ============== getBaseRessources ==============
+    get getBaseRessources getBaseRessources res/create
+
+    echo ============== getBaseBatiments ==============
+    get getBaseBatiments getBaseBatiments res/create
+
+    echo ============== getBaseBatimentCostInfirmerie ==============
+    get getBaseBatimentCostInfirmerie getBaseBatimentCostInfirmerie res/create
+fi
+
+

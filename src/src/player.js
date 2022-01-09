@@ -45,10 +45,17 @@ class Player {
         if( map.isInSide(x, y) && this.partie.isFree(x, y) ) {
             this.x = x;
             this.y = y;
+            map.incRegen();
         }
 
-        return map.get_tile(this.x, this.y);
+        this.tile = map.get_tile(this.x, this.y);
+        return this.tile;
     }
+
+    get_tile() {
+        return this.tile;
+    }
+
 
     /*
         27 const move = (jId, pId, dir) => {
