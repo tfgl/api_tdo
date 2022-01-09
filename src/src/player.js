@@ -8,7 +8,7 @@ class Player extends Entity {
         this.partie = partie;
         this.tile = partie.get_map().get_base();
 
-        this.head = null;
+        this.tete = null;
         this.corps = null;
         this.arme = null;
         this.armedst = null;
@@ -51,10 +51,11 @@ class Player extends Entity {
         let item = this.inventaire.take(slot);
 
         // si l'item exist & est equipable
-        if( item && item.bodyPart ) {
-            let oldPiece = this[item.bodyPart];
-            this.inventaire.add(oldPiece);
-            this[item.bodyPart] = item;
+        if( item && item.stats.bodyPart ) {
+            let oldPiece = this[item.stats.bodyPart];
+            if( oldPiece )
+                this.inventaire.add(oldPiece);
+            this[item.stats.bodyPart] = item;
         }
         else {
             this.inventaire.add(item);
@@ -108,13 +109,14 @@ class Player extends Entity {
     }
 
     get_equipement() {
-        return {
-            head: this.head,
+        let equipement = {
+            tete: this.tete,
             corps: this.corps,
             arme: this.arme,
             armedst: this.armedst,
             bouclier: this.bouclier,
         };
+        return equipement;
     }
 
     get_inventaire() {

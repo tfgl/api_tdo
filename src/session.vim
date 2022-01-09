@@ -20,6 +20,8 @@ tabnew
 tabnew
 tabnew
 tabnew
+tabnew
+tabnew
 tabrewind
 edit src/partie.js
 let s:save_splitbelow = &splitbelow
@@ -50,11 +52,11 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 46 - ((35 * winheight(0) + 26) / 52)
+let s:l = 19 - ((18 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 46
+keepjumps 19
 normal! 0
 wincmd w
 argglobal
@@ -71,33 +73,16 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 22 - ((21 * winheight(0) + 26) / 52)
+let s:l = 60 - ((38 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 22
-normal! 031|
+keepjumps 60
+normal! 0
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
 exe 'vert 2resize ' . ((&columns * 95 + 96) / 192)
-tabnext
-edit server.js
-argglobal
-balt src/partie.js
-setlocal fdm=syntax
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-let s:l = 8 - ((7 * winheight(0) + 26) / 52)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 8
-normal! 021|
 tabnext
 edit src/index.js
 argglobal
@@ -110,12 +95,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 6 - ((5 * winheight(0) + 26) / 52)
+let s:l = 1 - ((0 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
-normal! 011|
+keepjumps 1
+normal! 010|
 tabnext
 edit middlewares/logger.js
 argglobal
@@ -128,7 +113,7 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 3 - ((2 * winheight(0) + 26) / 52)
+let s:l = 3 - ((2 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -146,12 +131,90 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 50 - ((43 * winheight(0) + 26) / 52)
+let s:l = 89 - ((25 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 50
-normal! 042|
+keepjumps 89
+normal! 0
+tabnext
+edit ~/univ/tp/701/api/src/models/item.js
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
+exe 'vert 2resize ' . ((&columns * 95 + 96) / 192)
+argglobal
+balt src/item.js
+setlocal fdm=syntax
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 1 - ((0 * winheight(0) + 25) / 51)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1
+normal! 0
+wincmd w
+argglobal
+if bufexists("src/item.js") | buffer src/item.js | else | edit src/item.js | endif
+if &buftype ==# 'terminal'
+  silent file src/item.js
+endif
+balt ~/univ/tp/701/api/src/models/item.js
+setlocal fdm=syntax
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 19 - ((18 * winheight(0) + 25) / 51)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 19
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
+exe 'vert 2resize ' . ((&columns * 95 + 96) / 192)
+tabnext
+edit src/entity.js
+argglobal
+balt src/player.js
+setlocal fdm=syntax
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 18 - ((17 * winheight(0) + 25) / 51)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 18
+normal! 013|
 tabnext
 edit src/map.js
 argglobal
@@ -164,16 +227,34 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 47 - ((26 * winheight(0) + 26) / 52)
+let s:l = 36 - ((8 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 47
-normal! 040|
+keepjumps 36
+normal! 031|
 tabnext
-edit src/inventaire.js
+edit src/endlessInventaire.js
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
+exe 'vert 2resize ' . ((&columns * 95 + 96) / 192)
 argglobal
-balt src/player.js
+balt src/inventaire.js
 setlocal fdm=syntax
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -182,12 +263,36 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 16 - ((15 * winheight(0) + 26) / 52)
+let s:l = 18 - ((17 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 16
-normal! 018|
+keepjumps 18
+normal! 05|
+wincmd w
+argglobal
+if bufexists("src/inventaire.js") | buffer src/inventaire.js | else | edit src/inventaire.js | endif
+if &buftype ==# 'terminal'
+  silent file src/inventaire.js
+endif
+balt src/endlessIventaire.js
+setlocal fdm=syntax
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 9 - ((8 * winheight(0) + 25) / 51)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 9
+normal! 029|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
+exe 'vert 2resize ' . ((&columns * 95 + 96) / 192)
 tabnext
 edit src/base.js
 let s:save_splitbelow = &splitbelow
@@ -218,12 +323,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 3 - ((2 * winheight(0) + 26) / 52)
+let s:l = 73 - ((45 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 3
-normal! 0
+keepjumps 73
+normal! 022|
 wincmd w
 argglobal
 if bufexists("src/batiment.js") | buffer src/batiment.js | else | edit src/batiment.js | endif
@@ -239,12 +344,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 265 - ((51 * winheight(0) + 26) / 52)
+let s:l = 9 - ((8 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 265
-normal! 022|
+keepjumps 9
+normal! 019|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 96 + 96) / 192)
 exe 'vert 2resize ' . ((&columns * 95 + 96) / 192)
@@ -260,28 +365,56 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 94 - ((51 * winheight(0) + 26) / 52)
+let s:l = 170 - ((30 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 94
-normal! 023|
-tabnext 6
+keepjumps 170
+normal! 057|
+tabnext
+edit src/ennemy.js
+argglobal
+balt ~/univ/tp/701/api/src/models/ennemi.js
+setlocal fdm=syntax
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 15 - ((14 * winheight(0) + 25) / 51)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 15
+normal! 022|
+tabnext 1
 set stal=1
-badd +8 server.js
-badd +8 src/partie.js
-badd +8 routes/pratie.js
-badd +47 src/map.js
-badd +4 routes/partie.js
-badd +5 src/player.js
-badd +0 src/inventaire.js
-badd +0 src/event.js
-badd +87 ~/univ/tp/7/701/v1ltp/src/models/event.js
-badd +0 src/base.js
+badd +1 src/partie.js
+badd +7 server.js
+badd +1 src/index.js
+badd +1 middlewares/logger.js
+badd +0 src/player.js
+badd +1 ~/univ/tp/701/api/src/models/item.js
+badd +1 src/entity.js
+badd +1 src/map.js
+badd +1 src/endlessInventaire.js
+badd +1 src/base.js
+badd +1 src/event.js
+badd +1 src/ennemy.js
+badd +147 routes/partie.js
+badd +1 src/item.js
+badd +29 src/inventaire.js
+badd +11 src/endlessIventaire.js
 badd +12 src/batiment.js
+badd +87 ~/univ/tp/7/701/v1ltp/src/models/event.js
+badd +208 ~/univ/tp/701/api/src/models/ennemi.js
+badd +8 routes/pratie.js
 badd +270 ~/univ/tp/7/701/v1ltp/src/models/building.js
-badd +0 middlewares/logger.js
-badd +0 src/index.js
+badd +17 ~/univ/tp/701/api/src/server.js
+badd +63 ~/univ/tp/701/api/src/routes/partie.js
+badd +2 src/tile.js
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
 endif

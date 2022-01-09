@@ -72,7 +72,7 @@ class Map {
                     chunk[i].push( this.grille[y2][x2].getColor() );
                 }
                 else {
-                    chunk[i].push( "player" );
+                    chunk[i].push( "joueur" );
                 }
             }
         }
