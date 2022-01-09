@@ -28,7 +28,21 @@ class Base extends Batiment {
     }
 
     //TODO
-    upgrade() {
+    build(bat) {
+        let requirements = this.batiments[bat].getNextRequirements();
+        let items = this.inventaire.get_items();
+
+        // check the ressources
+        Object.keys(requirements).forEach( (key) => {
+            if( items[key] < requirements[key] )
+                return false;
+        })
+
+        this.batiments[bat].upgrade();
+        // take the ressources
+        Object.keys(requirements).forEach( (key) => {
+            this.inventaire.destroy(key, requirements[key]);
+        })
     }
 
     get_ressources() {
@@ -39,12 +53,24 @@ class Base extends Batiment {
         return this.batiments;
     }
 
+    get_realInventaire() {
+        return this.inventaire;
+    }
+
+    get_inventaire() {
+        return this.inventaire.get_items();
+    }
+
     fillUp() {
         this.inventaire.add("ferraille", 100);
         this.inventaire.add("bois", 100);
         this.inventaire.add("textile", 100);
         this.inventaire.add("alcool", 100);
         this.inventaire.add("medicament", 100);
+    }
+
+    getColor() {
+        return "base";
     }
 }
 

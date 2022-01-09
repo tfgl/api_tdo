@@ -1,17 +1,12 @@
 const Inventaire = require("./inventaire.js");
-const Map = require("./map.js");
+const Entity = require("./entity.js");
+const Item = require("./item.js");
 
-class Player {
+class Player extends Entity {
     constructor(partie) {
+        super({f:2, a: 2, p: 1, e: 3});
         this.partie = partie;
         this.tile = partie.get_map().get_base();
-        this.e = 3;
-        this.f = 2;
-        this.a = 2;
-        this.p = 1;
-
-        this.hp = 10;
-        this.lvl = 8;
 
         this.head = null;
         this.corps = null;
@@ -19,15 +14,15 @@ class Player {
         this.armedst = null;
         this.bouclier = null;
 
-        this.inventaire = new Inventaire();
+        this.inventaire = new Inventaire(10);
 
         let [x, y] = this.partie.get_map().centerToTopLeft(0, 0);
         this.x = x;
         this.y = y;
-    }
 
-    lvlUp() {
-        this.lvl = this.e + this.f + this.a + this.p;
+        this.inventaire.add( new Item("armure", 0) );
+        this.inventaire.add( new Item("armure", 1) );
+        this.inventaire.add( new Item("armure", 2) );
     }
 
     move(dir) {
@@ -52,58 +47,64 @@ class Player {
         return this.tile;
     }
 
+    equiper(slot) {
+        let item = this.inventaire.take(slot);
+
+        // si l'item exist & est equipable
+        if( item && item.bodyPart ) {
+            let oldPiece = this[item.bodyPart];
+            this.inventaire.add(oldPiece);
+            this[item.bodyPart] = item;
+        }
+        else {
+            this.inventaire.add(item);
+        }
+    }
+
     get_tile() {
         return this.tile;
     }
 
-
-    /*
-        27 const move = (jId, pId, dir) => {
-   26     // next case
-   25     // case vide ou base ?
-   24     //  oui: deplace j renvoie event
-   23     //  non: renvoie err
-   22     let partieModel = require("../models/partie.js");
-   21     let j = joueurList[pId][jId]
-   20     let [x, y] = j.coo;
-   19     let tile = partieModel.getGrille(pId, x, y);
-   18
-   17     x += dirToCoo[dir][0];
-   16     y += dirToCoo[dir][1];
-  15
-  14     if( partieModel.inMap(pId, x, y) ) {
-   13         tile = partieModel.getGrille(pId, x, y);
-   12         if( tile.players.length == 0 || tile.type == 'base') {
-   11             j.coo = [x, y];
-  10             tile.players.push(jId);
-   9             console.log('TILE');
-   8             console.log(tile);
-   7             console.log(partieModel.getGrille(pId, 0, 0));
-    6         }
-    5     }
-    4
-    3     console.log(`${dir}: ${dirToCoo[dir]}, j: ${j.coo}`)
-    2     console.log(`..............`)
-    1
-  100     return tile;
-    1 };
-
-    */
-
-    ramasser(itemId) {
-        //TODO
-        //this.partie.
+    fouiller() {
+        return this.tile.get_inventaire();
     }
 
-    get_stats() {
-        return {
-            e: this.e,
-            f: this.f,
-            a: this.a,
-            p: this.p,
-            hp: this.hp,
-            lvl: this.lvl,
-        };
+    drop(slot) {
+        let item = this.inventaire.take(slot);
+        if(item)
+            this.tile.get_realInventaire().add(item);
+    }
+
+    ramasser(item) {
+        //TODO quantity of item to pick-up
+        if( !this.full() ) {
+            this.tile.get_realInventaire().destroy(item, 1);
+            this.inventaire.add(item);
+        }
+    }
+
+    combattre() {
+        let ennemy = this.tile.ennemy;
+        return ennemy;
+    }
+
+    closeAttack() {
+        let ennemy = this.tile.ennemy;
+        let arme = this.arme;
+
+        ennemy.getHit(this.f + arme.f);
+    }
+
+    flee() {
+        // 10% de base
+        let success = (Math.random()*100) - 10;
+
+        // agilite
+        success += 9 - this.a;
+
+        // force
+        success -= this.f * 2;
+        return success >= 0;
     }
 
     get_equipement() {
@@ -117,9 +118,10 @@ class Player {
     }
 
     get_inventaire() {
-        return this.inventaire;
+        console.log(this.inventaire.get_items())
+        let inventaire = this.inventaire.get_items();
+        return inventaire;
     }
-
 }
 
 module.exports = Player;

@@ -14,19 +14,24 @@ function get() {
 if [ $1 == "clean" ]; then
     rm res/*
 else
-    echo ============== create a partie ==============
-    get createPartie create
+    if [ $1 == "create" ]; then
+        echo ============== create a partie ==============
+        get createPartie create
+        playerId=0
+    else
+        playerId=1
+    fi
 
     echo ============== join a partie ==============
     get joinPartie join res/create
 
     echo ============== move ==============
-    echo "{\"partieId\": 0, \"playerId\": 0, \"dir\": \"n\"}" > query/mvt
+    echo "{\"partieId\": 0, \"playerId\": $playerId, \"dir\": \"n\"}" > query/mvt
     get move mvt query/mvt
 
     echo ============== radar ==============
-    echo "{\"partieId\": 0, \"playerId\": 0, \"y\": 0, \"x\": 0, \"d\": 4}" > query/radar
-    get getGrille radar2 query/radar
+    echo "{\"partieId\": 0, \"playerId\": $playerId, \"y\": 0, \"x\": 0, \"d\": 4}" > query/radar
+    get getGrille radar query/radar
 
     echo ============== getBaseRessources ==============
     get getBaseRessources getBaseRessources res/create
@@ -36,6 +41,38 @@ else
 
     echo ============== getBaseBatimentCostInfirmerie ==============
     get getBaseBatimentCostInfirmerie getBaseBatimentCostInfirmerie res/create
+
+    echo ============== fouiller ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId}" > query/fouiller
+    get fouiller fouiller query/fouiller
+
+    echo ============== drop ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId, \"slot\": 0}" > query/drop
+    get drop drop query/drop
+
+    echo ============== construire ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId, \"batiment\": \"infirmerie\"}" > query/construire
+    get construire construire query/construire
+
+    echo ============== getStats ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId}" > query/getStats
+    get getStats getStats query/getStats
+
+    echo ============== getInventaire ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId}" > query/getInventaire
+    get getInventaire getInventaire query/getInventaire
+
+    echo ============== equipe ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId \"slot\": 0}" > query/equipe
+    get equipe equipe query/construire
+
+    echo ============== getInventaire ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId}" > query/getInventaire
+    get getInventaire getInventaire2 query/getInventaire
+
+    echo ============== getStats ==============
+    echo "{\"partieId\": 0, \"playerId\": $playerId}" > query/getStats
+    get getStats getStats query/getStats
 fi
 
 

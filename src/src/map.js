@@ -69,7 +69,7 @@ class Map {
             for(let j=0; j<d; j++) {
                 let [x2, y2] = this.centerToTopLeft(j+x-d/2, i+y-d/2);
                 if( this.partie.isFree(x2, y2) ) {
-                    chunk[i].push( this.grille[y2][x2] );
+                    chunk[i].push( this.grille[y2][x2].getColor() );
                 }
                 else {
                     chunk[i].push( "player" );

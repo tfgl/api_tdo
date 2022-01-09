@@ -6,6 +6,7 @@ class Batiment {
     }
 
     upgrade() {
+        this.lvl++;
     }
 
     getNextRequirements () {

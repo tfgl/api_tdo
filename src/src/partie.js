@@ -16,15 +16,6 @@ class Partie {
         Partie.parties[pId].addPlayer();
     }
 
-    static move(pId, jId, dir) {
-        let player = Partie.parties[pId].get_player(jId);
-        return player.move(dir);
-    }
-
-    static get_chunk(pId, x, y, d) {
-        return Partie.parties[pId].get_map().get_chunk(x, y, d);
-    }
-
     static getPartie(pId) {
         return Partie.parties[pId];
     }

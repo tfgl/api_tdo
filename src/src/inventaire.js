@@ -20,6 +20,14 @@ class Inventaire {
         return this.items.splice(slot, 1)[0];
     }
 
+    get_item(slot) {
+        return this.items[slot];
+    }
+
+    full() {
+        return this.items.length >= this.size;
+    }
+
     print() {
         let str = `size: ${this.size} `;
         for(let i=0; i<this.items.length; i++)
