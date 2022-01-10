@@ -12,7 +12,7 @@ class Event {
     static eventProba = [0.8, 0.09, 0.08, 0.02, 0.01];
     static eventProbaCum = [0.8, 0.89, 0.97, 0.99, 1];
 
-    reactToChoice(choix) {
+    reactToChoice(choix, player) {
         let res;
         switch(choix) {
             case "fouiller":
@@ -20,11 +20,11 @@ class Event {
                 break;
 
             case "fuir":
-                res = this.flee();
+                res = this.flee(player);
                 break;
 
             case "combattre":
-                res = this.combattre();
+                res = this.combattre(player);
                 break;
 
             case "entrer":
@@ -51,15 +51,20 @@ class Event {
     }
 
     //TODO
-    move() {
+    combattre(player) {
     }
 
     //TODO
-    combattre() {
-    }
+    flee(player) {
+        let a = player.get_stats().a;
+        if( a < 10 )
+            return 0
 
-    //TODO
-    flee() {
+        let res = 10 + (a + (a / (a-1)))
+        if( res > 100 )
+            res = 100
+
+        return Math.random()*100 - res > 0
     }
 
     //TODO

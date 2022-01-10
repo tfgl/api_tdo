@@ -106,6 +106,7 @@ partieRouter.post("/eventResponse", (req, res) => {
     let pId = req.body.partieId;
     let jId = req.body.playerId;
     let choix = req.body.choix;
+    console.log(choix)
 
     // get the player
     let player = Partie.getPartie(pId).get_player(jId);

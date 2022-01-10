@@ -347,6 +347,9 @@ class Item{
         for( let i = 0; i < Item.arme.length; i++) {
             Item.armedst[i].bodyPart = 'armedst';
         }
+        for( let i = 0; i < Item.soins.length; i++) {
+            Item.soins[i].bodyPart = 'soins';
+        }
     }
 
 }

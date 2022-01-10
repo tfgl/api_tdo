@@ -5,6 +5,7 @@ class Entity {
         });
         this.updateMaxHp();
         this.lvlUp();
+        this.maxHp = this.e * 10;
     }
 
     regen() {

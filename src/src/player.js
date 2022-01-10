@@ -13,16 +13,13 @@ class Player extends Entity {
         this.arme = null;
         this.armedst = null;
         this.bouclier = null;
+        this.soins = null;
 
         this.inventaire = new Inventaire(10);
 
         let [x, y] = this.partie.get_map().centerToTopLeft(0, 0);
         this.x = x;
         this.y = y;
-
-        this.inventaire.add( new Item("armure", 0) );
-        this.inventaire.add( new Item("armure", 1) );
-        this.inventaire.add( new Item("armure", 2) );
     }
 
     move(dir) {
@@ -37,10 +34,14 @@ class Player extends Entity {
         let x = dirs[dir][0] + this.x;
         let y = dirs[dir][1] + this.y;
 
-        if( map.isInSide(x, y) && this.partie.isFree(x, y) ) {
+        if( map.isInSide(x, y) && (this.partie.isFree(x, y) || map.get_tile(x, y) == map.get_base() ) ) {
             this.x = x;
             this.y = y;
             map.incRegen();
+            if( map.get_tile(x, y) == map.get_base() ) {
+                this.updateMaxHp()
+                this.hp = this.maxHp;
+            }
         }
 
         this.tile = map.get_tile(this.x, this.y);
