@@ -32,10 +32,14 @@ class Base extends Batiment {
         let requirements = this.batiments[bat].getNextRequirements();
         let items = this.inventaire.get_items();
 
+        // if max lvl
+        if( !requirements )
+            return this.batiments[bat];
+
         // check the ressources
         Object.keys(requirements).forEach( (key) => {
             if( items[key] < requirements[key] )
-                return false;
+                return this.batiments[bat];
         })
 
         this.batiments[bat].upgrade();
@@ -43,6 +47,7 @@ class Base extends Batiment {
         Object.keys(requirements).forEach( (key) => {
             this.inventaire.destroy(key, requirements[key]);
         })
+        return this.batiments[bat];
     }
 
     get_ressources() {

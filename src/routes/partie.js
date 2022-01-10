@@ -145,12 +145,14 @@ partieRouter.post("/construire", (req, res) => {
     let pId = req.body.partieId;
     let bat = req.body.batiment;
 
-    Partie.getPartie(pId)
+    let batiment = Partie.getPartie(pId)
           .get_map()
           .get_base()
           .build(bat);
 
-    res.status(200).send();
+    console.log(batiment)
+
+    res.status(200).json(batiment);
 })
 
 partieRouter.post("/getInventaire", (req, res) => {

@@ -4,7 +4,7 @@ const Item = require("./item.js");
 
 class Player extends Entity {
     constructor(partie) {
-        super({f:2, a: 2, p: 1, e: 3});
+        super({f:2, a: 2, p: 1, e: 3, hp: 30});
         this.partie = partie;
         this.tile = partie.get_map().get_base();
 
